@@ -1,78 +1,31 @@
-#include "stdio.h"
+#include <Windows.h>
+#include <functional>
+#include <stdio.h>
 #include <stdlib.h>
-#include "windows.h"
+#include <time.h>
+#include <iostream>
 
-typedef void (*PFunc)(int*);
-
-//コールバック関数１
-void yes(int* s)
+int GetRand()
 {
-	printf("あたり！BIGBONUS\n", *s);
+	return rand();
 }
 
-void no(int* s)
-{
-	printf("はずれ\n", *s);
-}
 
-void setTimeout(PFunc p, int second)
-{
-
-	Sleep(second * 1000);
-
-	p(&second);
-}
-int anser = 0;
 int main()
 {
-	PFunc p;
-	p = yes;
-	int r = rand() % 6 + 1;
-	r = r % 2;
-	
-	printf("start\n");
-	printf("偶数なら1を入力してください\n");
-	printf("奇数なら-1を入力してください\n");
-	printf("%d\n",r);
-	scanf_s("%d", &anser);
-	//入力が偶数
-	if (anser == 1)
-	{
-		//ランダムの結果が偶数なら
-		if (r == 0)
-		{
-			p = yes;
-		}
-		else
-		{
-			p = no;
-		}
-		printf("選んだ手は偶数\n");
-	}
-	//入力が奇数
-	else if (anser == -1)
-	{
-		//ランダムの結果奇数なら
-		if (r == 1)
-		{
-			p = yes;
-		}
-		else
-		{
-			p = no;
-		}
-		printf("選んだ手は奇数\n");
+	//入力受付
+	printf("好きな数字を入力してください\n");
+	int inputnum;
+	scanf_s("%d", &inputnum);
 
-	}
+	//待ち時間
+	int sec = 3;
 
+	//描画
+	std::function<void()> Lottery = [=]() {rand() % 2 == inputnum ? printf("奇数\n") : printf("偶数\n"); };
 
-	
+	//タイムアウト
+	std::function<void(std::function<void()>, int)> setTiomeOut = [](std::function<void()> fx, int sec) { fx(); Sleep(sec * 1000); };
 
-	
-	setTimeout(p, 3);
-
-
-
-
-	return 0;
+	setTiomeOut(Lottery, sec);
 }
