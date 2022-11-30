@@ -1,73 +1,84 @@
-#include <stdio.h>
-#include <list>
-#include <iostream>
+#include<stdio.h>
+#include<stdlib.h>
 
-using namespace std;
+//双方向リストの構造体の定義
+typedef struct cell {
+	int val;
+
+	struct cell* prev;
+
+	struct cell* next;
+
+}CELL;
+
+void create(CELL* currentCell, int val); //プロトタイプ宣言
+void index(CELL* endCell);
+CELL* getInsertCellAddress(CELL* endCELL, int iterator);
+
 int main()
 {
-	const char* yamanoteStationName[28] = {
-		"Tokyo",
-		"Kanda",
-		"Akihabara",
-		"Okachimachi",
-		"Ueno",
-		"Uguisudani",
-		"Nippori",
-		"Tabata",
-		"Komagome",
-		"Sugamo",
-		"Otsuka",
-		"Ikebukuro",
-		"Mejiro",
-		"Takadanobaba",
-		"ShinOkubo",
-		"Shinjuku",
-		"Yoyogi",
-		"Harajuku",
-		"Shibuya",
-		"Ebisu",
-		"Meguro",
-		"Gotanda",
-		"Osaki",
-		"Shinagawa",
-		"Tamachi",
-		"Hamamatsucho",
-		"Shimbashi",
-		"Yurakucho"
-	};
+	int iterator;
+	int inputValue;
+	CELL* insertCell;
 
-	//リストを生成
-	list<const char*> lst(yamanoteStationName, end(yamanoteStationName));
+	CELL head;
+	head.next = nullptr;
 
-	//駅一覧
-	printf("1970年駅一覧\n");
-	for (auto itr = lst.begin(); itr != lst.end(); ++itr)
+	while (1)
 	{
-		cout << *itr << "\n";
+		printf("何番目のセルの後ろに挿入しますか？\n");
+		scanf_s("%d", &iterator);
+
+		printf("挿入する値を入力してください\n");
+		scanf_s("%d", &inputValue);
+
+		//任意のセルの後ろに追加
+		insertCell = getInsertCellAddress(&head, iterator);
+		create(insertCell, inputValue);
+
+		//リストの一覧の表示
+		index(&head);
 	}
-	//一つ開ける
-	printf("\n");
-
-	//駅一覧
-	printf("2019年駅一覧\n");
-	list<const char*>::iterator itr1970 = next(lst.begin(), 7);
-	lst.insert(itr1970, "NishiniNippori");
-	for (auto itr = lst.begin(); itr != lst.end(); ++itr)
-	{
-		cout << *itr << "\n";
-	}
-	//一つ開ける
-	printf("\n");
-
-	//駅一覧
-	printf("2022年駅一覧\n");
-	list<const char*>::iterator itr2019 = next(lst.begin(), 25);
-	lst.insert(itr2019, "TakanawaGateway");
-	for (auto itr = lst.begin(); itr != lst.end(); ++itr)
-	{
-		cout << *itr << "\n";
-	}
-
-
 	return 0;
+}
+
+void create(CELL* currentCell, int val) {
+	CELL* newCell;
+	newCell = (CELL*)malloc(sizeof(CELL));
+	newCell->val = val;
+	newCell->prev = currentCell;
+	newCell->next = currentCell->next;
+
+	if (currentCell->next) {
+		CELL* newCell = currentCell->next;
+		newCell->prev = newCell;
+	}
+	currentCell->next = newCell;
+}
+
+
+void index(CELL* endCell) {
+	int no = 1;
+	while (endCell->next != nullptr) {
+		endCell = endCell->next;
+		printf("%d ", no);
+		printf("%p ", endCell->prev);
+		printf("%5d ", endCell->val);
+		printf("(%p) ", endCell);
+		printf("%p\n ", endCell->next);
+		no++;
+	}
+
+}
+
+CELL* getInsertCellAddress(CELL* endCELL, int iterator) {
+	for (int i = 0; i < iterator; i++) {
+		if (endCELL->next) {
+			endCELL = endCELL->next;
+		}
+		else {
+			break;
+		}
+	}
+	return endCELL;
 }
