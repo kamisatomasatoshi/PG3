@@ -1,31 +1,73 @@
-#include <Windows.h>
-#include <functional>
 #include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
+#include <list>
 #include <iostream>
 
-int GetRand()
-{
-	return rand();
-}
-
-
+using namespace std;
 int main()
 {
-	//入力受付
-	printf("好きな数字を入力してください\n");
-	int inputnum;
-	scanf_s("%d", &inputnum);
+	const char* yamanoteStationName[28] = {
+		"Tokyo",
+		"Kanda",
+		"Akihabara",
+		"Okachimachi",
+		"Ueno",
+		"Uguisudani",
+		"Nippori",
+		"Tabata",
+		"Komagome",
+		"Sugamo",
+		"Otsuka",
+		"Ikebukuro",
+		"Mejiro",
+		"Takadanobaba",
+		"ShinOkubo",
+		"Shinjuku",
+		"Yoyogi",
+		"Harajuku",
+		"Shibuya",
+		"Ebisu",
+		"Meguro",
+		"Gotanda",
+		"Osaki",
+		"Shinagawa",
+		"Tamachi",
+		"Hamamatsucho",
+		"Shimbashi",
+		"Yurakucho"
+	};
 
-	//待ち時間
-	int sec = 3;
+	//リストを生成
+	list<const char*> lst(yamanoteStationName, end(yamanoteStationName));
 
-	//描画
-	std::function<void()> Lottery = [=]() {rand() % 2 == inputnum ? printf("奇数\n") : printf("偶数\n"); };
+	//駅一覧
+	printf("1970年駅一覧\n");
+	for (auto itr = lst.begin(); itr != lst.end(); ++itr)
+	{
+		cout << *itr << "\n";
+	}
+	//一つ開ける
+	printf("\n");
 
-	//タイムアウト
-	std::function<void(std::function<void()>, int)> setTiomeOut = [](std::function<void()> fx, int sec) { fx(); Sleep(sec * 1000); };
+	//駅一覧
+	printf("2019年駅一覧\n");
+	list<const char*>::iterator itr1970 = next(lst.begin(), 7);
+	lst.insert(itr1970, "NishiniNippori");
+	for (auto itr = lst.begin(); itr != lst.end(); ++itr)
+	{
+		cout << *itr << "\n";
+	}
+	//一つ開ける
+	printf("\n");
 
-	setTiomeOut(Lottery, sec);
+	//駅一覧
+	printf("2022年駅一覧\n");
+	list<const char*>::iterator itr2019 = next(lst.begin(), 25);
+	lst.insert(itr2019, "TakanawaGateway");
+	for (auto itr = lst.begin(); itr != lst.end(); ++itr)
+	{
+		cout << *itr << "\n";
+	}
+
+
+	return 0;
 }
