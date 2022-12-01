@@ -54,21 +54,14 @@ public:
 		Add(value_, cur);
 	}
 
-	/// <summary>
 	/// 一番後ろに追加
-	/// </summary>
-	/// <param name="value_">値</param>
 	void PushBack(T value_)
 	{
 		Cell<T>* cur = dummy->prev;
 		Add(value_, cur);
 	}
 
-	/// <summary>
 	/// 任意の場所に追加
-	/// </summary>
-	/// <param name="value_">値</param>
-	/// <param name="num">追加する場所(0~)</param>
 	void Insert(T value_, int num)
 	{
 		Cell<T>* tmpCell = nullptr;
@@ -95,11 +88,8 @@ public:
 		return true;
 	}
 
-	/// <summary>
+	
 	/// 任意の場所の値を変更
-	/// </summary>
-	/// <param name="value_">値</param>
-	/// <param name="num">変更する場所(0~)</param>
 	bool ChangeValue(T value_, int num)
 	{
 
@@ -124,9 +114,7 @@ public:
 
 	}
 
-	/// <summary>
 	/// 一覧表示
-	/// </summary>
 	void Dump()
 	{
 		Cell<T>* ptr = dummy->next;
