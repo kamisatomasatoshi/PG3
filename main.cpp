@@ -1,78 +1,67 @@
 #include "stdio.h"
 #include <stdlib.h>
-#include "windows.h"
 
-typedef void (*PFunc)(int*);
 
-//コールバック関数１
-void yes(int* s)
+//01 typedef
+
+typedef struct CELL
 {
-	printf("あたり！BIGBONUS\n", *s);
-}
+	int val;
+	struct CELL* next;
 
-void no(int* s)
-{
-	printf("はずれ\n", *s);
-}
+}CELL;
 
-void setTimeout(PFunc p, int second)
-{
+void create(CELL *head,int val);
 
-	Sleep(second * 1000);
+void index(CELL* head);
 
-	p(&second);
-}
-int anser = 0;
 int main()
 {
-	PFunc p;
-	p = yes;
-	int r = rand() % 6 + 1;
-	r = r % 2;
-	
-	printf("start\n");
-	printf("偶数なら1を入力してください\n");
-	printf("奇数なら-1を入力してください\n");
-	printf("%d\n",r);
-	scanf_s("%d", &anser);
-	//入力が偶数
-	if (anser == 1)
+	int val;
+
+	//02先頭セルを宣言
+	CELL head;
+	head.next=nullptr;
+	head.val = 0;
+	while (true)
 	{
-		//ランダムの結果が偶数なら
-		if (r == 0)
-		{
-			p = yes;
-		}
-		else
-		{
-			p = no;
-		}
-		printf("選んだ手は偶数\n");
+	//03入力
+		printf("入力する値");
+		scanf_s("%d", &val);
+		create(&head, val);
+	//04最後のセルを追加
+
+
+		//05セル一覧を表示
+		index(&head);
+		printf("\n");
 	}
-	//入力が奇数
-	else if (anser == -1)
-	{
-		//ランダムの結果奇数なら
-		if (r == 1)
-		{
-			p = yes;
-		}
-		else
-		{
-			p = no;
-		}
-		printf("選んだ手は奇数\n");
-
-	}
-
-
-	
-
-	
-	setTimeout(p, 3);
-
-
-
 
 	return 0;
+}
+
+void create(CELL* head, int val)
+{
+	CELL* newCell;
+	newCell = (CELL*)malloc(sizeof(CELL));
+
+	newCell->val = val;
+	newCell->next = nullptr;
+
+	while (head->next != nullptr)
+	{
+		head = head->next;
+	}
+	head->next = newCell;
+}
+
+void index(CELL* head)
+{
+	printf("入力された値一覧:[");
+	while (head->next != nullptr)
+	{
+		head = head->next;
+		printf("%d ", head->val);
+	}
+	printf("]\n\n\n");
 }
