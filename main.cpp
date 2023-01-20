@@ -1,31 +1,52 @@
-#include <Windows.h>
 #include <functional>
+#include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
-#include <iostream>
-
-int GetRand()
-{
-	return rand();
-}
+#include <random>
+#include "windows.h"
 
 
 int main()
 {
-	//入力受付
-	printf("好きな数字を入力してください\n");
-	int inputnum;
-	scanf_s("%d", &inputnum);
+	int dice;//入力した数字を代入する変数
+	int result = 0;
+	int waitTime = 3000;//待ち時間用変数
 
-	//待ち時間
-	int sec = 3;
+	printf("数字を代入してください\n");
+	scanf_s("%d", &dice);
+	if (dice % 2 == 0)
+	{
+		printf("偶数\n");
+	}
+	else if (dice % 2 == 1)
+	{
+		printf("奇数\n");
+	}
 
-	//描画
-	std::function<void()> Lottery = [=]() {rand() % 2 == inputnum ? printf("奇数\n") : printf("偶数\n"); };
+	//抽選関数
+	std::function<int()> lottery = [&result]()
+	{
+		srand(time(nullptr));
+		result = rand() % 2;
+		return result;
+	};
 
-	//タイムアウト
-	std::function<void(std::function<void()>, int)> setTiomeOut = [](std::function<void()> fx, int sec) { fx(); Sleep(sec * 1000); };
+	//タイムアウトのセッター
+	std::function<void(std::function<void()>, const int)> setTimeOut = [=](std::function<void()> fx, int time)
+	{
+		Sleep(time);
+		fx();
+	};
 
-	setTiomeOut(Lottery, sec);
+	//比較関数
+	std::function<void(char, int)>compation = [=](char input, int output) {
+		input % 2 == output ? printf("当たり\n") : printf("はずれ\n");
+	};
+
+	setTimeOut(lottery, waitTime);
+
+	compation(dice, result);
+
+	system("pause");
+	return 0;
 }
