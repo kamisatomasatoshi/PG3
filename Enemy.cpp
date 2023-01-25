@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-bool Enemy::IsAlive;
+bool Enemy::IsAlive=true;
 
 Enemy::Enemy()
 {
