@@ -11,7 +11,7 @@ public:
 	//メンバ関数
 	void Initialize();
 	void Update();
-	void Proximity();
+	void Approach();
 	void Shooting();
 	void Secession();
 

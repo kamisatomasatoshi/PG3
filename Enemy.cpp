@@ -26,7 +26,7 @@ void Enemy::Update()
 	}
 }
 
-void Enemy::Proximity()
+void Enemy::Approach()
 {
 	printf("Ú‹ß\n");
 }
@@ -43,7 +43,7 @@ void Enemy::Secession()
 
 void (Enemy::* Enemy::pFunc[])() = 
 {
-		&Enemy::Proximity, // Ú‹ß 0
+		&Enemy::Approach, // Ú‹ß 0
 		&Enemy::Shooting,  // UŒ‚ 1
 		&Enemy::Secession,  // —£’E 2
 		
