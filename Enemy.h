@@ -1,6 +1,7 @@
 ﻿#pragma once
 class Enemy
 {
+
 public:
 	//コンストラクタ
 	Enemy();
@@ -8,16 +9,14 @@ public:
 	~Enemy();
 
 	//メンバ関数
-	// 初期化
 	void Initialize();
-
-	// アップデート
 	void Update();
+	void Proximity();
+	void Shooting();
+	void Secession();
 
-	// 描画処理
-	void Draw();
-
-public:
-	//静的メンバ変数
-	static bool IsAlive;
+private:
+	
+	static void (Enemy::* pFunc[])();
+	int phaseNum = 0;
 };
